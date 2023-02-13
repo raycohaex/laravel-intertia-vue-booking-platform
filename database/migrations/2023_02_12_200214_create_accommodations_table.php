@@ -15,6 +15,18 @@ return new class extends Migration
     {
         Schema::create('accommodations', function (Blueprint $table) {
             $table->uuid('id');
+            $table->string('name');
+            $table->text('description');
+            $table->string('display_location');
+            $table->double('latitude');
+            $table->double('longitude');
+            $table->boolean('wifi');
+            $table->double('price');
+            $table->integer('rooms');
+            $table->text('amenities')->nullable();
+            $table->json('images')->nullable();
+            $table->unsignedBigInteger('host_id');
+            $table->foreign('host_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
