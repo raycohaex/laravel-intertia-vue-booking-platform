@@ -22,7 +22,7 @@ return new class extends Migration
             $table->double('longitude');
             $table->boolean('wifi');
             $table->double('price');
-            $table->integer('rooms');
+            $table->integer('bed');
             $table->text('amenities')->nullable();
             $table->json('images')->nullable();
             $table->unsignedBigInteger('host_id');
