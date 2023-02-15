@@ -1,17 +1,5 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import DeleteUserForm from '@/Pages/Profile/Partials/DeleteUserForm.vue';
-import LogoutOtherBrowserSessionsForm from '@/Pages/Profile/Partials/LogoutOtherBrowserSessionsForm.vue';
-import SectionBorder from '@/Components/SectionBorder.vue';
-import TwoFactorAuthenticationForm from '@/Pages/Profile/Partials/TwoFactorAuthenticationForm.vue';
-import UpdatePasswordForm from '@/Pages/Profile/Partials/UpdatePasswordForm.vue';
-import UpdateProfileInformationForm from '@/Pages/Profile/Partials/UpdateProfileInformationForm.vue';
-
-defineProps({
-    confirmsTwoFactorAuthentication: Boolean,
-    sessions: Array,
-    accommodations: Object
-});
 </script>
 
 <template>
@@ -30,13 +18,23 @@ defineProps({
                         {{ accommodation.name }}
                     </li>
                 </ul>
-                <inertia-link v-if="accommodations.prev_page_url" :href="accommodations.prev_page_url">
-                    Previous
-                </inertia-link>
-                <inertia-link v-if="accommodations.next_page_url" :href="accommodations.next_page_url">
-                    Next
-                </inertia-link>
+                <Pagination :links="accommodations.links" />
             </div>
         </div>
     </AppLayout>
 </template>
+
+<script>
+import Pagination from '@/Components/Pagination.vue'
+
+export default {
+    components: {
+        Pagination
+    },
+    props: {
+        confirmsTwoFactorAuthentication: Boolean,
+        sessions: Array,
+        accommodations: Object
+    }
+}
+</script>
