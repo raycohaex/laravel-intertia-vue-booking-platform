@@ -5,9 +5,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 <template>
     <AppLayout title="Accommodations">
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Accommodations
-            </h2>
+            filters
         </template>
 
         <div>
