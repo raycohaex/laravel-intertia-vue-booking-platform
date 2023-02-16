@@ -1,5 +1,6 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
+import { Link } from '@inertiajs/vue3'
 </script>
 
 <template>
@@ -10,12 +11,12 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 
         <div>
             <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-                <h1>Accommodation List</h1>
-                <ul>
-                    <li v-for="accommodation in accommodations.data" :key="accommodation.id">
+                <div class="grid grid-cols-5 gap-4">
+                    <Link :href="route('accommodation.show', { accommodation: accommodation.id })" v-for="accommodation in accommodations.data" :key="accommodation.id" class="col-span-1">
+                        <div class="w-full aspect-square bg-gray-100 rounded"></div>
                         {{ accommodation.name }}
-                    </li>
-                </ul>
+                    </Link>
+                </div>
                 <Pagination :links="accommodations.links" />
             </div>
         </div>

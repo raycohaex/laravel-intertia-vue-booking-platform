@@ -17,6 +17,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', [AccommodationController::class, 'index'])->name('accommodation.index');
+Route::get('/accommodation/{accommodation}', [AccommodationController::class, 'show'])->name('accommodation.show');
 
 Route::middleware([
     'auth:sanctum',
