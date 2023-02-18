@@ -19,14 +19,14 @@ use Inertia\Inertia;
 Route::get('/', [AccommodationController::class, 'index'])->name('accommodation.index');
 Route::get('/accommodation/{accommodation}', [AccommodationController::class, 'show'])->name('accommodation.show');
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
-});
+// Route::middleware([
+//     'auth:sanctum',
+//     config('jetstream.auth_session'),
+//     'verified',
+// ])->group(function () {
+//     Route::get('/dashboard', function () {
+//         return Inertia::render('Dashboard');
+//     })->name('dashboard');
+// });
 
 
