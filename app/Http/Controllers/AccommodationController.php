@@ -10,7 +10,9 @@ class AccommodationController extends Controller
 {
     public function index()
     {
-        $accommodations = Accommodation::paginate(10);
+        $accommodations = Accommodation::with(['images' => function($query){
+            $query->orderBy('order');
+        }])->paginate(25);
 
         return Inertia::render('Accommodation/Index', [
             'accommodations' => $accommodations

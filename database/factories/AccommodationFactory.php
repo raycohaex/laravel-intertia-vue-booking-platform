@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Accommodation;
+use App\Models\Image;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -17,6 +18,25 @@ class AccommodationFactory extends Factory
      * @var string
      */
     protected $model = Accommodation::class;
+
+    /**
+     * Configure the model factory.
+     *
+     * @return $this
+     */
+    public function configure()
+    {
+        return $this->afterMaking(function (Accommodation $accommodation) {
+            //
+        })->afterCreating(function (Accommodation $accommodation) {
+            // use faker to create 1 fake image
+            $image = Image::factory()->create([
+                'imageable_id' => $accommodation->id,
+                'imageable_type' => Accommodation::class
+            ]);
+            $accommodation->images()->save($image);
+        });
+    }
 
     /**
      * Define the model's default state.
