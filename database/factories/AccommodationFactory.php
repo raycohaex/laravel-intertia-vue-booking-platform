@@ -48,7 +48,7 @@ class AccommodationFactory extends Factory
         return [
             'name' => $this->faker->sentence(7),
             'description' => $this->faker->text(),
-            'display_location' => $this->faker->city(),
+            'display_location' => "{$this->faker->city()}, {$this->faker->country()}",
             'latitude' => $this->faker->latitude(),
             'longitude' => $this->faker->longitude(),
             'wifi' => $this->faker->boolean(),
