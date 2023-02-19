@@ -9,7 +9,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
         </template>
 
         <div>
-            <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
+            <div class="max-w-6xl mx-auto py-10 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-5 gap-4 gap-y-6">
                     <Link
                     :href="route('accommodation.show', { accommodation: accommodation.slug })"
