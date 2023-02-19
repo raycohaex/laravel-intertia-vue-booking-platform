@@ -19,12 +19,10 @@ class AccommodationController extends Controller
         ]);
     }
 
-    public function show()
+    public function show(Request $request, Accommodation $accommodation)
     {
-        $accommodations = Accommodation::paginate(10);
-
         return Inertia::render('Accommodation/Show', [
-            'accommodations' => $accommodations
+            'accommodation' => $accommodation
         ]);
     }
 }

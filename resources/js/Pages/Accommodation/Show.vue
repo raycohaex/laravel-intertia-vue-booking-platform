@@ -10,7 +10,7 @@ import { Link } from '@inertiajs/vue3'
         </template>
 
         <div>
-            show
+            {{ accommodation.name }}
         </div>
     </AppLayout>
 </template>
@@ -25,7 +25,7 @@ export default {
     props: {
         confirmsTwoFactorAuthentication: Boolean,
         sessions: Array,
-        accommodations: Object
+        accommodation: Object
     }
 }
 </script>

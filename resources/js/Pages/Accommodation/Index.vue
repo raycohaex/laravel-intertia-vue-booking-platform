@@ -12,14 +12,14 @@ import AppLayout from '@/Layouts/AppLayout.vue';
             <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-5 gap-4 gap-y-6">
                     <Link
-                    :href="route('accommodation.show', { accommodation: accommodation.id })"
+                    :href="route('accommodation.show', { accommodation: accommodation.slug })"
                     v-for="accommodation in accommodations.data"
                     :key="accommodation.id"
                     class="col-span-1 flex flex-col">
                         <div class="w-full aspect-square bg-gray-100 rounded-[20px] mb-1 overflow-hidden">
                             <img :src="accommodation.images[0].url" class="object-cover w-full h-full" />
                         </div>
-                        <span class="font-bold">{{ accommodation.display_location }}</span>
+                        <span class="font-bold">{{ accommodation.city }}, {{ accommodation.country }}</span>
                         <div><span class="font-medium text-md">€ {{accommodation.price}}</span><span> Night</span></div>
                     </Link>
                 </div>
