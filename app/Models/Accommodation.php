@@ -52,6 +52,15 @@ class Accommodation extends Model
     }
 
     /**
+     * get the user that owns the accomodation, host_id
+     * @return BelongsTo
+     */
+    public function host(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
      * @return BelongsTo
      */
     public function category(): BelongsTo

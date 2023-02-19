@@ -21,6 +21,8 @@ class AccommodationController extends Controller
 
     public function show(Request $request, Accommodation $accommodation)
     {
+        $accommodation->load('host', 'images');
+
         return Inertia::render('Accommodation/Show', [
             'accommodation' => $accommodation
         ]);

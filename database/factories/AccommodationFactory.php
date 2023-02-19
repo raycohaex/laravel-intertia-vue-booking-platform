@@ -30,11 +30,15 @@ class AccommodationFactory extends Factory
             //
         })->afterCreating(function (Accommodation $accommodation) {
             // use faker to create 1 fake image
-            $image = Image::factory()->create([
-                'imageable_id' => $accommodation->id,
-                'imageable_type' => Accommodation::class
-            ]);
-            $accommodation->images()->save($image);
+            $numberOfImages = rand(1, 6); // generate a random number between 1 and 6
+
+            for ($i = 0; $i < $numberOfImages; $i++) {
+                $image = Image::factory()->create([
+                    'imageable_id' => $accommodation->id,
+                    'imageable_type' => Accommodation::class
+                ]);
+                $accommodation->images()->save($image);
+            }
         });
     }
 
