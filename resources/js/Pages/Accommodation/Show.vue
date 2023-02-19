@@ -39,7 +39,7 @@
                 <!-- END Listing info -->
 
                 <!-- START image gallery -->
-                <div class="my-6">
+                <div class="mt-6 mb-10">
                     <div class="grid grid-rows-3 grid-cols-4 gap-2">
                         <div class="row-span-3 col-span-3 rounded-[20px] overflow-hidden">
                             <img :src="accommodation.images[0].url" alt="main image" class="w-full h-full object-cover">
@@ -76,7 +76,30 @@
                                 </div>
                             </div>
 
-                            
+                            <div class="mt-2">
+                                <date-picker
+                                v-model:value="time"
+                                range
+                                format="DD-MM-Y"
+                                :disabledDate="disableDate"
+                                :onChange="calculatePrice"
+                                style="width:100%;"/>
+                            </div>
+
+                            <div class="mt-2">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <span class="font-bold text-xl mr-2">{{ price }} €</span>
+                                        <span class="text-sm">total</span>
+                                    </div>
+                                    <div>
+                                        <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                                            Book
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
 
                         </div>
                     </div>
@@ -91,17 +114,48 @@
 import Pagination from '@/Components/Pagination.vue'
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Link } from '@inertiajs/vue3'
+import DatePicker from 'vue-datepicker-next';
+import 'vue-datepicker-next/index.css';
 
 export default {
     components: {
         Pagination,
         AppLayout,
-        Link
+        Link,
+        DatePicker
     },
     props: {
         confirmsTwoFactorAuthentication: Boolean,
         sessions: Array,
         accommodation: Object
+    },
+    data() {
+        return {
+            // select 1 week from now, range of 2 weeks, format like 2023-02-07 ~ 2023-03-15
+            time: [new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000), new Date(new Date().getTime() + 14 * 24 * 60 * 60 * 1000)],
+            price: 0
+        }
+    },
+    methods: {
+        eightMonthsFromToday() {
+            const today = new Date()
+            const eightMonths = 9 * 30 * 24 * 60 * 60 * 1000 // 8 months in milliseconds
+            return new Date(today.getTime() + eightMonths)
+        },
+        disableDate(date) {
+            return date < new Date() || date > this.eightMonthsFromToday()
+        },
+        calculatePrice() {
+            axios.get(route('accommodations.price', [this.accommodation.id]), {
+                params: {
+                    start_date: this.time[0].toISOString().split('T')[0],
+                    end_date: this.time[1].toISOString().split('T')[0]
+                }
+            }).then(response => {
+                // round off price to 2 decimal places but if it's 1 cent add 0 in front
+                this.price = response.data.price.toFixed(2).replace(/\.?0+$/, '')
+            })
+        }
     }
 }
 </script>
