@@ -1,7 +1,7 @@
 <template>
     <AppLayout title="Accommodations">
 
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
             <header class="py-2 flex justify-between">
                 <!-- back button, route is 'accommodations.index' -->
                 <Link :href="route('accommodation.index')" class="flex items-center space-x-1 border border-gray-500 rounded-full p-2 text-sm hover:bg-gray-100 transition">
@@ -12,7 +12,7 @@
                 </Link>
             </header>
             <div class="flex flex-col py-4">
-                <h1 class="font-bold text-[1.5rem]">{{ accommodation.name }}</h1>
+                <h1 class="font-bold text-[1.5rem] max-w-[40ch]">{{ accommodation.name }}</h1>
                 <!-- START Listing info -->
                 <div class="flex flex-row items-center space-x-2">
                     <span class="flex items-center">
@@ -54,7 +54,33 @@
                 <!-- END image gallery -->
 
                 <!-- START listing info -->
+                <div class="grid grid-cols-3">
+                    <div class="col-span-2">
+                        test
+                    </div>
+                    <div class="col-span-1">
+                        <div class="rounded-[20px] shadow-lg border border-gray-200 p-4">
 
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <span class="font-bold text-xl mr-2">{{ accommodation.price }} €</span>
+                                    <span class="text-sm">night</span>
+                                </div>
+                                <div>
+                                    <span class="flex items-center">
+                                        <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+                                        </svg>
+                                        <span class="underline">4,91 (131)</span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            
+
+                        </div>
+                    </div>
+                </div>
                 <!-- END listing info -->
             </div>
         </div>
