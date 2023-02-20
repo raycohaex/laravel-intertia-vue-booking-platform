@@ -2,9 +2,11 @@
 
 namespace App\Services;
 
-use App\Filters\AccommodationSearchFilter;
 use App\Models\Accommodation;
 
+/**
+ * Service which is responsible for querying Accommodations based on criteria.
+ */
 class AccommodationSearchService
 {
     protected array $filters = [];
@@ -23,7 +25,7 @@ class AccommodationSearchService
     }
 
     /**
-     * @param AccommodationSearchFilter $filters
+     * @param array|null $filters
      * @param int|null $paginate
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */

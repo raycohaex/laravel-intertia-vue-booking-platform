@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\IAccommodationPricing;
+use App\DTO\AccommodationPrice;
 use App\Models\Accommodation;
 use App\Services\AccommodationSearchService;
 use Carbon\Carbon;
@@ -29,13 +31,15 @@ class AccommodationController extends Controller
         ]);
     }
 
-    public function calculatePrice(Request $request, int $accommodation)
+    public function calculatePrice(Request $request, int $accommodation, IAccommodationPricing $accommodationPricing)
     {
         $accommodation = Accommodation::find($accommodation);
+
         $dates = $request->only(['start_date', 'end_date']);
-        $days = Carbon::parse($dates['start_date'])->diffInDays(Carbon::parse($dates['end_date']));
+        dd($accommodationPricing->getPrice(Carbon::parse($dates['start_date']), Carbon::parse($dates['end_date']), $accommodation));
+
         $days = $days * $accommodation->price;
-        
+
         return response()->json([
             'price' => $days
         ]);

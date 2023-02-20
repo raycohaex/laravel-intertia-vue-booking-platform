@@ -23,6 +23,7 @@ return new class extends Migration
             $table->double('latitude');
             $table->double('longitude');
             $table->boolean('wifi');
+            $table->double('cleaning_cost')->nullable();
             $table->double('price');
             $table->integer('bed');
             $table->text('amenities')->nullable();
