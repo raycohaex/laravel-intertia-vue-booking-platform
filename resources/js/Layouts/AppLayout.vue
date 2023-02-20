@@ -223,6 +223,10 @@ const logout = () => {
             <main>
                 <slot />
             </main>
+
+            <footer class="bg-gray-100 mt-4 py-[150px] text-center">
+                footer, didn't implement
+            </footer>
         </div>
     </div>
 </template>

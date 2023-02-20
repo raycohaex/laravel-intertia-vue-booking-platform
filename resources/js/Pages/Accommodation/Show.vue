@@ -55,8 +55,15 @@
 
                 <!-- START listing info -->
                 <div class="grid grid-cols-3">
-                    <div class="col-span-2">
-                        test
+                    <div class="col-span-2 mr-[100px]">
+                        <h2 class="font-bold text-xl">This whole accommodation is available</h2>
+                        <span class="flex">{{ accommodation.bed }} Beds</span>
+                        <div class="mt-4">
+                            {{ accommodation.description }}
+                        </div>
+                        <div class="mt-4 border-t border-gray-300">
+                            {{ accommodation.amenities }}
+                        </div>
                     </div>
                     <div class="col-span-1">
                         <div class="rounded-[20px] shadow-lg border border-gray-200 p-4">
@@ -103,7 +110,7 @@
                                     <div v-if="accommodationPrice.cleaning_cost > 0" class="flex justify-between py-1 border-b border-gray-200">
                                         <span class="text-sm">cleaning fee</span>
                                         <span class="mr-2">{{ price(accommodationPrice.cleaning_cost) }}</span>
-                                    </div> 
+                                    </div>
                                     <div v-if="accommodationPrice.fees > 0" class="flex justify-between py-1 mb-2 border-b border-gray-500">
                                         <span class="text-sm">Service</span>
                                         <span class="mr-2">{{ price(accommodationPrice.fees) }}</span>
