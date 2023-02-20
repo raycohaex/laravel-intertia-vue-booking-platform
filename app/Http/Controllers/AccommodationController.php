@@ -34,14 +34,17 @@ class AccommodationController extends Controller
     public function calculatePrice(Request $request, int $accommodation, IAccommodationPricing $accommodationPricing)
     {
         $accommodation = Accommodation::find($accommodation);
-
         $dates = $request->only(['start_date', 'end_date']);
-        dd($accommodationPricing->getPrice(Carbon::parse($dates['start_date']), Carbon::parse($dates['end_date']), $accommodation));
 
-        $days = $days * $accommodation->price;
+        $accommodationPrice = $accommodationPricing->getPrice(
+            Carbon::parse($dates['start_date']),
+            Carbon::parse($dates['end_date']),
+            $accommodation
+        );
 
         return response()->json([
-            'price' => $days
+            'accommodationPrice' => $accommodationPrice,
+            'totalPrice' => $accommodationPrice->getTotalPrice(),
         ]);
     }
 }

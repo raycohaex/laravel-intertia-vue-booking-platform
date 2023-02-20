@@ -86,16 +86,32 @@
                                 style="width:100%;"/>
                             </div>
 
+                            <div class="mt-3 mb-4 flex w-full">
+                                <button class="bg-black text-white font-bold py-2 px-4 rounded w-full">
+                                    Book now
+                                </button>
+                            </div>
+
                             <div class="mt-2">
-                                <div class="flex justify-between items-center">
-                                    <div>
-                                        <span class="font-bold text-xl mr-2">{{ price }} €</span>
-                                        <span class="text-sm">total</span>
+                                <div class="flex flex-col">
+
+                                    <div v-if="accommodationPrice.days > 0" class="flex justify-between py-1 border-b border-gray-200">
+                                        <span class="text-sm">{{ accommodationPrice.days }} nights X {{ price(accommodationPrice.basePrice) }}</span>
+                                        <span class="mr-2">{{ price(accommodationPrice.days * accommodationPrice.basePrice) }}</span>
                                     </div>
-                                    <div>
-                                        <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
-                                            Book
-                                        </button>
+
+                                    <div v-if="accommodationPrice.cleaning_cost > 0" class="flex justify-between py-1 border-b border-gray-200">
+                                        <span class="text-sm">cleaning fee</span>
+                                        <span class="mr-2">{{ price(accommodationPrice.cleaning_cost) }}</span>
+                                    </div> 
+                                    <div v-if="accommodationPrice.fees > 0" class="flex justify-between py-1 mb-2 border-b border-gray-500">
+                                        <span class="text-sm">Service</span>
+                                        <span class="mr-2">{{ price(accommodationPrice.fees) }}</span>
+                                    </div>
+
+                                    <div v-if="totalPrice > 0" class="flex justify-between">
+                                        <span class="text-sm font-medium">total</span>
+                                        <span class="font-bold mr-2">{{ price(totalPrice) }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -133,7 +149,8 @@ export default {
         return {
             // select 1 week from now, range of 2 weeks, format like 2023-02-07 ~ 2023-03-15
             time: [new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000), new Date(new Date().getTime() + 14 * 24 * 60 * 60 * 1000)],
-            price: 0
+            accommodationPrice: 0,
+            totalPrice: 0
         }
     },
     methods: {
@@ -152,9 +169,19 @@ export default {
                     end_date: this.time[1].toISOString().split('T')[0]
                 }
             }).then(response => {
-                // round off price to 2 decimal places but if it's 1 cent add 0 in front
-                this.price = response.data.price.toFixed(2).replace(/\.?0+$/, '')
+                console.log(response.data.accommodationPrice);
+                this.accommodationPrice = response.data.accommodationPrice;
+                this.totalPrice = response.data.totalPrice;
             })
+        },
+        price(price) {
+            const formatter = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'EUR', // replace with your preferred currency
+                minimumFractionDigits: 2,
+            });
+
+            return formatter.format(price);
         }
     }
 }

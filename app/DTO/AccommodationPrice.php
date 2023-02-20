@@ -4,10 +4,10 @@ namespace App\DTO;
 
 class AccommodationPrice
 {
-    private float $basePrice;
-    private int $days;
-    private float $cleaning_cost;
-    private float $fees;
+    public float $basePrice;
+    public int $days;
+    public float $cleaning_cost;
+    public float $fees;
 
     /**
      * @param int $days
@@ -25,21 +25,5 @@ class AccommodationPrice
     public function getTotalPrice(): float {
         $totalPriceNights = $this->basePrice * $this->days;
         return $totalPriceNights + $this->cleaning_cost + $this->fees;
-    }
-
-    public function getBasePrice(): float {
-        return $this->basePrice;
-    }
-
-    public function getDays(): int {
-        return $this->days;
-    }
-
-    public function getCleaningCost(): float {
-        return $this->cleaning_cost;
-    }
-
-    public function getFees(): float {
-        return $this->fees;
     }
 }
