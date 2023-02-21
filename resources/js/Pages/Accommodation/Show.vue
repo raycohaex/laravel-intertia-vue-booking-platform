@@ -94,7 +94,7 @@
                             </div>
 
                             <div class="mt-3 mb-4 flex w-full">
-                                <Link :href="{{ route }}" class="bg-black text-white font-bold py-2 px-4 rounded w-full">
+                                <button class="bg-black text-white font-bold py-2 px-4 rounded w-full" @click="book">
                                     Book now
                                 </button>
                             </div>
@@ -189,8 +189,18 @@ export default {
             });
 
             return formatter.format(price);
-        }
+        },
+        book() {
+            var params = {
+                accommodation_id: this.accommodation.id,
+                start_date: this.time[0].toISOString().split('T')[0],
+                end_date: this.time[1].toISOString().split('T')[0]
+            };
 
+            // redirect to checkout using inertia
+            this.$inertia.get(route('book.stay'), params);
+            
+        }
     }
 }
 </script>

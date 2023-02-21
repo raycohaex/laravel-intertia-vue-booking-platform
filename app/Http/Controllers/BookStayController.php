@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class BookStayController extends Controller
 {
@@ -12,5 +13,8 @@ class BookStayController extends Controller
             'end_date' => 'required|date',
             'accommodation_id' => 'required|integer'
         ]);
+
+        // TODO: proper route
+        return Inertia::render('Accommodation/Index');
     }
 }
