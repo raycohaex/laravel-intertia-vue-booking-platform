@@ -94,7 +94,7 @@
                             </div>
 
                             <div class="mt-3 mb-4 flex w-full">
-                                <button class="bg-black text-white font-bold py-2 px-4 rounded w-full">
+                                <Link :href="{{ route }}" class="bg-black text-white font-bold py-2 px-4 rounded w-full">
                                     Book now
                                 </button>
                             </div>
@@ -190,6 +190,7 @@ export default {
 
             return formatter.format(price);
         }
+
     }
 }
 </script>
