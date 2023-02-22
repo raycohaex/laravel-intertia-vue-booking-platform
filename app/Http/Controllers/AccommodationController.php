@@ -44,7 +44,6 @@ class AccommodationController extends Controller
 
         return response()->json([
             'accommodationPrice' => $accommodationPrice,
-            'totalPrice' => $accommodationPrice->getTotalPrice(),
         ]);
     }
 }

@@ -24,13 +24,17 @@ class AccommodationPricingService implements IAccommodationPricing {
     {
         $days = $start_date->diffInDays($end_date);
 
-        $serviceFee = $accommodation->price / 100 * self::CONSUMER_FEE_PLACEHOLDER;
+        // calculate total price
+        $totalPrice = $accommodation->price * $days + $accommodation->cleaning_cost;
+        $serviceFee = $totalPrice / 100 * self::CONSUMER_FEE_PLACEHOLDER;
+        $totalPrice += $serviceFee;
 
         $accommodationPriceDto = new AccommodationPrice(
             $days,
             $accommodation->price,
             $accommodation->cleaning_cost,
-            $serviceFee
+            $serviceFee,
+            $totalPrice
         );
 
         return $accommodationPriceDto;

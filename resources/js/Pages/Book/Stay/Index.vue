@@ -31,7 +31,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
                         </div>
                         <div class="flex justify-between py-3">
                             <span class="text-sm">Price per night</span>
-                            <span class="text-sm">€ {{accommodationPrice.price}}</span>
+                            <span class="text-sm">€ {{accommodationPrice.total}}</span>
                         </div>
                     </div>
                 </div>

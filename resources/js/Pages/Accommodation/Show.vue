@@ -116,9 +116,9 @@
                                         <span class="mr-2">{{ price(accommodationPrice.fees) }}</span>
                                     </div>
 
-                                    <div v-if="totalPrice > 0" class="flex justify-between">
+                                    <div v-if="accommodationPrice.totalPrice > 0" class="flex justify-between">
                                         <span class="text-sm font-medium">total</span>
-                                        <span class="font-bold mr-2">{{ price(totalPrice) }}</span>
+                                        <span class="font-bold mr-2">{{ price(accommodationPrice.totalPrice) }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -178,7 +178,6 @@ export default {
             }).then(response => {
                 console.log(response.data.accommodationPrice);
                 this.accommodationPrice = response.data.accommodationPrice;
-                this.totalPrice = response.data.totalPrice;
             })
         },
         price(price) {
