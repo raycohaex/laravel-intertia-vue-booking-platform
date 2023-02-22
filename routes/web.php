@@ -20,7 +20,7 @@ use Inertia\Inertia;
 Route::get('/', [AccommodationController::class, 'index'])->name('accommodation.index');
 Route::get('/accommodation/{accommodation}', [AccommodationController::class, 'show'])->name('accommodation.show');
 Route::get('/accommodation/{accommodation}/calculate-price', [AccommodationController::class, 'calculatePrice'])->name('accommodations.price');
-Route::get('/book/stay', [BookStayController::class, 'checkout'])->name('book.stay');
+Route::get('/book/stay/{accommodation}', [BookStayController::class, 'checkout'])->name('book.stay');
 
 // Route::middleware([
 //     'auth:sanctum',

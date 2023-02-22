@@ -154,7 +154,6 @@ export default {
     },
     data() {
         return {
-            // select 1 week from now, range of 2 weeks, format like 2023-02-07 ~ 2023-03-15
             time: [new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000), new Date(new Date().getTime() + 14 * 24 * 60 * 60 * 1000)],
             accommodationPrice: 0,
             totalPrice: 0
@@ -170,7 +169,8 @@ export default {
             return date < new Date() || date > this.eightMonthsFromToday()
         },
         calculatePrice() {
-            axios.get(route('accommodations.price', [this.accommodation.id]), {
+            console.log(this.accommodation.id);
+            axios.get(route('accommodations.price', { accommodation: this.accommodation.id}), {
                 params: {
                     start_date: this.time[0].toISOString().split('T')[0],
                     end_date: this.time[1].toISOString().split('T')[0]
@@ -192,14 +192,12 @@ export default {
         },
         book() {
             var params = {
-                accommodation_id: this.accommodation.id,
                 start_date: this.time[0].toISOString().split('T')[0],
                 end_date: this.time[1].toISOString().split('T')[0]
             };
 
             // redirect to checkout using inertia
-            this.$inertia.get(route('book.stay'), params);
-            
+            this.$inertia.get(route('book.stay', { accommodation: this.accommodation.id}), params);
         }
     }
 }
