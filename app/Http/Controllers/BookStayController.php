@@ -19,7 +19,9 @@ class BookStayController extends Controller
 
         $dates = $request->only(['start_date', 'end_date']);
 
-        $accommodation = Accommodation::find($accommodation);
+        // get accommodation with images
+        $accommodation = Accommodation::find($accommodation)
+            ->load('images');
 
         $price = $accommodationPricingService->getPrice(
             Carbon::parse($dates['start_date']),
@@ -28,6 +30,9 @@ class BookStayController extends Controller
         );
 
         // TODO: proper route
-        return Inertia::render('Accommodation/Index');
+        return Inertia::render('Book/Stay/Index', [
+            'accommodation' => $accommodation,
+            'accommodationPrice' => $price
+        ]);
     }
 }
