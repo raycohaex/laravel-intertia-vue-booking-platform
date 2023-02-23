@@ -29,10 +29,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
                             <img :src="accommodation.images[0].url" class="w-[124px] h-[100px] rounded-lg mr-3">
                             <h2 class="text-sm">{{ accommodation.name }}</h2>
                         </div>
-                        <div class="flex justify-between py-3">
-                            <span class="text-sm">Price per night</span>
-                            <span class="text-sm">{{ price(accommodationPrice.totalPrice) }}</span>
-                        </div>
+                        <AccommodationPrice :accommodationPrice="accommodationPrice"/>
                     </div>
                 </div>
             </div>
@@ -42,9 +39,12 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 
 <script>
 import { Link } from '@inertiajs/vue3';
+import AccommodationPrice from '@/Components/AccommodationPrice.vue';
+
 export default {
     components: {
         AppLayout,
+        AccommodationPrice
     },
     props: {
         accommodation: Object,

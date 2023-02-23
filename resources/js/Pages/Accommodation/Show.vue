@@ -101,25 +101,7 @@
 
                             <div class="mt-2">
                                 <div class="flex flex-col">
-
-                                    <div v-if="accommodationPrice.days > 0" class="flex justify-between py-1 border-b border-gray-200">
-                                        <span class="text-sm">{{ accommodationPrice.days }} nights X {{ price(accommodationPrice.basePrice) }}</span>
-                                        <span class="mr-2">{{ price(accommodationPrice.days * accommodationPrice.basePrice) }}</span>
-                                    </div>
-
-                                    <div v-if="accommodationPrice.cleaning_cost > 0" class="flex justify-between py-1 border-b border-gray-200">
-                                        <span class="text-sm">cleaning fee</span>
-                                        <span class="mr-2">{{ price(accommodationPrice.cleaning_cost) }}</span>
-                                    </div>
-                                    <div v-if="accommodationPrice.fees > 0" class="flex justify-between py-1 mb-2 border-b border-gray-500">
-                                        <span class="text-sm">Service</span>
-                                        <span class="mr-2">{{ price(accommodationPrice.fees) }}</span>
-                                    </div>
-
-                                    <div v-if="accommodationPrice.totalPrice > 0" class="flex justify-between">
-                                        <span class="text-sm font-medium">total</span>
-                                        <span class="font-bold mr-2">{{ price(accommodationPrice.totalPrice) }}</span>
-                                    </div>
+                                    <AccommodationPrice :accommodationPrice="accommodationPrice"/>
                                 </div>
                             </div>
 
@@ -135,6 +117,7 @@
 
 <script>
 import Pagination from '@/Components/Pagination.vue'
+import AccommodationPrice from '@/Components/AccommodationPrice.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Link } from '@inertiajs/vue3'
 import DatePicker from 'vue-datepicker-next';
@@ -142,6 +125,7 @@ import 'vue-datepicker-next/index.css';
 
 export default {
     components: {
+        AccommodationPrice,
         Pagination,
         AppLayout,
         Link,
