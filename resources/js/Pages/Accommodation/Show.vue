@@ -169,25 +169,14 @@ export default {
             return date < new Date() || date > this.eightMonthsFromToday()
         },
         calculatePrice() {
-            console.log(this.accommodation.id);
             axios.get(route('accommodations.price', { accommodation: this.accommodation.id}), {
                 params: {
                     start_date: this.time[0].toISOString().split('T')[0],
                     end_date: this.time[1].toISOString().split('T')[0]
                 }
             }).then(response => {
-                console.log(response.data.accommodationPrice);
                 this.accommodationPrice = response.data.accommodationPrice;
             })
-        },
-        price(price) {
-            const formatter = new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: 'EUR', // replace with your preferred currency
-                minimumFractionDigits: 2,
-            });
-
-            return formatter.format(price);
         },
         book() {
             var params = {
@@ -195,7 +184,6 @@ export default {
                 end_date: this.time[1].toISOString().split('T')[0]
             };
 
-            // redirect to checkout using inertia
             this.$inertia.get(route('book.stay', { accommodation: this.accommodation.id}), params);
         }
     }

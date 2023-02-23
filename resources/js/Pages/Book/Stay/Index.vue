@@ -26,12 +26,12 @@ import AppLayout from '@/Layouts/AppLayout.vue';
                     <!-- right side -->
                     <div class="col-span-2 border border-gray-200 p-4 shadow-md rounded-xl">
                         <div class="flex border-b border-gray-200 py-3 pb-6">
-                            <img :src="accommodation.images[0].url" class="w-[124px] h-[100px] rounded-lg mr-3">                          
+                            <img :src="accommodation.images[0].url" class="w-[124px] h-[100px] rounded-lg mr-3">
                             <h2 class="text-sm">{{ accommodation.name }}</h2>
                         </div>
                         <div class="flex justify-between py-3">
                             <span class="text-sm">Price per night</span>
-                            <span class="text-sm">€ {{accommodationPrice.total}}</span>
+                            <span class="text-sm">{{ price(accommodationPrice.totalPrice) }}</span>
                         </div>
                     </div>
                 </div>

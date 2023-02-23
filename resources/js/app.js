@@ -15,9 +15,22 @@ createInertiaApp({
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue, Ziggy)
+            .mixin({
+                methods: {
+                    price: (price) => {
+                        const formatter = new Intl.NumberFormat('en-US', {
+                            style: 'currency',
+                            currency: 'EUR', // replace with your preferred currency
+                            minimumFractionDigits: 2,
+                        });
+
+                        return formatter.format(price);
+                    }
+                }
+            })
             .mount(el);
     },
     progress: {
-        color: '#4B5563',
+        color: '#00010c',
     },
 });
