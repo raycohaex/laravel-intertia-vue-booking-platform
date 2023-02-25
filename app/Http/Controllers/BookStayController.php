@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Accommodation;
+use App\Models\Booking;
 use App\Services\AccommodationPricingService;
 use App\Services\AccommodationSearchService;
 use Carbon\Carbon;
@@ -38,7 +39,7 @@ class BookStayController extends Controller
                         'unit_amount' => intval($price->totalPrice * 100),
                         'product_data' => [
                             'name' => $accommodation->name,
-                            'images' => [$accommodation->images[0]->url],
+                            'images' => [$accommodation->images[0]->url]
                         ],
                     ],
                     'quantity' => 1,
@@ -50,6 +51,16 @@ class BookStayController extends Controller
             'cancel_url' => route('bookings.cancel'),
         ]);
 
+        $booking = new Booking();
+        $booking->accommodation()->associate($accommodation);
+        $booking->user()->associate($request->user());
+        $booking->check_in = Carbon::parse($dates['start_date']);
+        $booking->check_out = Carbon::parse($dates['end_date']);
+        $booking->status = 'pending';
+        $booking->stripe_session_id = $session->id;
+        $booking->amount = $price->totalPrice;
+        $booking->amount_paid = 0;
+        $booking->save();
 
         return Inertia::render('Book/Stay/Index', [
             'accommodation' => $accommodation,
