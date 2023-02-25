@@ -20,16 +20,21 @@ use Inertia\Inertia;
 Route::get('/', [AccommodationController::class, 'index'])->name('accommodation.index');
 Route::get('/accommodation/{accommodation}', [AccommodationController::class, 'show'])->name('accommodation.show');
 Route::get('/accommodation/{accommodation}/calculate-price', [AccommodationController::class, 'calculatePrice'])->name('accommodations.price');
-Route::get('/book/stay/{accommodation}', [BookStayController::class, 'checkout'])->name('book.stay');
 
-// Route::middleware([
-//     'auth:sanctum',
-//     config('jetstream.auth_session'),
-//     'verified',
-// ])->group(function () {
-//     Route::get('/dashboard', function () {
-//         return Inertia::render('Dashboard');
-//     })->name('dashboard');
-// });
+// group with required auth
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::get('/book/stay/{accommodation}', [BookStayController::class, 'checkout'])->name('book.stay');
+});
+
+Route::controller(StripePaymentController::class)->group(function(){
+    Route::post('stripe/checkout', 'stripePost')->name('stripe.post');
+});
 
 
+Route::get('/bookings/success', function () {
+    return 'Payment successful!';
+})->name('bookings.success');
+
+Route::get('/bookings/cancel', function () {
+    return 'Payment canceled!';
+})->name('bookings.cancel');

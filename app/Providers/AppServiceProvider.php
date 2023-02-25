@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Services\AccommodationSearchService;
 use Illuminate\Support\ServiceProvider;
+use Stripe;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +24,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
     }
 }

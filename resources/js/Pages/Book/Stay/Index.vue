@@ -1,7 +1,3 @@
-<script setup>
-import AppLayout from '@/Layouts/AppLayout.vue';
-</script>
-
 <template>
     <AppLayout title="Accommodations">
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
@@ -17,13 +13,15 @@ import AppLayout from '@/Layouts/AppLayout.vue';
                     </Link>
                     <h1 class="text-2xl font-bold">Book accommodation</h1>
                 </div>
-                <!-- split grid in 2 -->
                 <div class="grid grid-cols-5 gap-4">
-                    <!-- left side -->
                     <div class="col-span-3">
-                        checkout info
+                        <stripe-checkout
+                            ref="checkoutRef"
+                            :pk="publishableKey"
+                            :session-id="stripeSessionId"
+                            />
+                        <button type="button" @click="submit">Checkout</button>
                     </div>
-                    <!-- right side -->
                     <div class="col-span-2 border border-gray-200 p-4 shadow-md rounded-xl">
                         <div class="flex border-b border-gray-200 py-3 pb-6">
                             <img :src="accommodation.images[0].url" class="w-[124px] h-[100px] rounded-lg mr-3">
@@ -33,22 +31,38 @@ import AppLayout from '@/Layouts/AppLayout.vue';
                     </div>
                 </div>
             </div>
-        </div>>
+        </div>
     </AppLayout>
 </template>
 
 <script>
 import { Link } from '@inertiajs/vue3';
 import AccommodationPrice from '@/Components/AccommodationPrice.vue';
+import AppLayout from '@/Layouts/AppLayout.vue';
+import { StripeCheckout } from '@vue-stripe/vue-stripe';
 
 export default {
     components: {
         AppLayout,
-        AccommodationPrice
+        AccommodationPrice,
+        StripeCheckout
+    },
+    data() {
+        return {
+            publishableKey: 'pk_test_51MfM66AVsCOL8hvw5pRPJLnwlVZ5K5J9nh583jDycUX7HNLQvfQJaof4uBGKCrKnWouIctJrqmz0ER0RoIHe1vng00VF8CiyIq'
+            
+        };
     },
     props: {
         accommodation: Object,
-        accommodationPrice: Object
+        accommodationPrice: Object,
+        user: Object,
+        stripeSessionId: String
     },
+    methods: {
+        submit() {
+            this.$refs.checkoutRef.redirectToCheckout();
+        }
+    }
 };
 </script>

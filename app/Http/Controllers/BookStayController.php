@@ -8,6 +8,7 @@ use App\Services\AccommodationSearchService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Stripe\Checkout\Session;
 
 class BookStayController extends Controller
 {
@@ -18,8 +19,6 @@ class BookStayController extends Controller
         ]);
 
         $dates = $request->only(['start_date', 'end_date']);
-
-        // get accommodation with images
         $accommodation = Accommodation::find($accommodation)
             ->load('images');
 
@@ -29,10 +28,32 @@ class BookStayController extends Controller
             $accommodation
         );
 
-        // TODO: proper route
+
+        $session = Session::create([
+            'payment_method_types' => ['card'],
+            'line_items' => [
+                [
+                    'price_data' => [
+                        'currency' => 'eur',
+                        'unit_amount' => intval($price->totalPrice * 100),
+                        'product_data' => [
+                            'name' => $accommodation->name,
+                            'images' => [$accommodation->images[0]->url],
+                        ],
+                    ],
+                    'quantity' => 1,
+                ],
+            ],
+            'mode' => 'payment',
+            'success_url' => route('bookings.success'),
+            'cancel_url' => route('bookings.cancel'),
+        ]);
+
+
         return Inertia::render('Book/Stay/Index', [
             'accommodation' => $accommodation,
-            'accommodationPrice' => $price
+            'accommodationPrice' => $price,
+            'stripeSessionId' => $session->id
         ]);
     }
 }
