@@ -67,4 +67,9 @@ class Accommodation extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function bookings(): HasMany
+    {
+        return $this->hasMany(Booking::class);
+    }
 }
