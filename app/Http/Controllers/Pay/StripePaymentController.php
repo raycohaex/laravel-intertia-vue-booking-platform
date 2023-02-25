@@ -4,39 +4,26 @@ namespace App\Http\Controllers\Pay;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
-use Stripe;
+use Stripe;use Stripe\Checkout\Session;
 
 class StripePaymentController extends Controller
 {
-    /**
-     * success response method.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function stripe()
-    {
+    public function paymentSuccess(Request $request) {
+        // Verify the request is from the payment gateway using your secret key
+        $secretKey = env('STRIPE_SECRET');
+        $sessionId = request()->query('session_id');
 
-    }
+        try {
+            $session = Session::retrieve($sessionId, $secretKey);
+        } catch (\Exception $e) {
+            return response('Payment not successful', 400);
+        }
+        
+        if ($session->payment_status !== 'paid') {
+            return response('Payment not successful', 400);
+        }
 
-    /**
-     * success response method.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function stripePost(Request $request)
-    {
-        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-
-        Stripe\Charge::create ([
-            "amount" => 100 * 100,
-            "currency" => "eur",
-            "source" => $request->stripeToken,
-            "description" => "Test payment from bookingapp"
-        ]);
-
-        Session::flash('success', 'Payment successful!');
-
-        return back();
+        dd($session);
+        return response('OK', 200);
     }
 }

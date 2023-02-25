@@ -30,7 +30,7 @@ class BookStayController extends Controller
 
 
         $session = Session::create([
-            'payment_method_types' => ['card'],
+            'payment_method_types' => ['card', 'ideal'],
             'line_items' => [
                 [
                     'price_data' => [
@@ -45,7 +45,8 @@ class BookStayController extends Controller
                 ],
             ],
             'mode' => 'payment',
-            'success_url' => route('bookings.success'),
+            // return the id of the session being made
+            'success_url' => route('bookings.success', [], true)."?session_id={CHECKOUT_SESSION_ID}",
             'cancel_url' => route('bookings.cancel'),
         ]);
 

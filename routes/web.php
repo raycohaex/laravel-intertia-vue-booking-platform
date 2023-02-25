@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccommodationController;
 use App\Http\Controllers\BookStayController;
+use App\Http\Controllers\Pay\StripePaymentController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -28,13 +29,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
 Route::controller(StripePaymentController::class)->group(function(){
     Route::post('stripe/checkout', 'stripePost')->name('stripe.post');
+    Route::get('/bookings/success', 'paymentSuccess')->name('bookings.success');
+    Route::get('/bookings/cancel', 'paymentCancel')->name('bookings.cancel');
 });
-
-
-Route::get('/bookings/success', function () {
-    return 'Payment successful!';
-})->name('bookings.success');
-
-Route::get('/bookings/cancel', function () {
-    return 'Payment canceled!';
-})->name('bookings.cancel');
