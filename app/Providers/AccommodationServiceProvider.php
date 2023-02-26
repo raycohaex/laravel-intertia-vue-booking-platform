@@ -17,6 +17,8 @@ class AccommodationServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(IAccommodationPricing::class, AccommodationPricingService::class);
+
+        // TODO: replace with interface
         $this->app->bind(AccommodationSearchService::class, function ($app) {
             return new AccommodationSearchService();
         });

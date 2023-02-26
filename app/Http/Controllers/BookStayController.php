@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\IAccommodationPricing;
+use App\Contracts\IBooking;
 use App\Models\Accommodation;
 use App\Models\Booking;
 use App\Services\AccommodationPricingService;
@@ -14,7 +15,12 @@ use Stripe\Checkout\Session;
 
 class BookStayController extends Controller
 {
-    public function checkout(Request $request, int $accommodation, IAccommodationPricing $accommodationPricingService) {
+    public function checkout(
+        Request $request,
+        int $accommodation,
+        IAccommodationPricing $accommodationPricingService,
+        IBooking $bookingService
+    ) {
         $request->validate([
             'start_date' => 'required|date',
             'end_date' => 'required|date',
@@ -30,38 +36,13 @@ class BookStayController extends Controller
             $accommodation
         );
 
-
-        $session = Session::create([
-            'payment_method_types' => ['card', 'ideal'],
-            'line_items' => [
-                [
-                    'price_data' => [
-                        'currency' => 'eur',
-                        'unit_amount' => intval($price->totalPrice * 100),
-                        'product_data' => [
-                            'name' => $accommodation->name,
-                            'images' => [$accommodation->images[0]->url]
-                        ],
-                    ],
-                    'quantity' => 1,
-                ],
-            ],
-            'mode' => 'payment',
-            // return the id of the session being made
-            'success_url' => route('bookings.success', [], true)."?session_id={CHECKOUT_SESSION_ID}",
-            'cancel_url' => route('bookings.cancel'),
-        ]);
-
-        $booking = new Booking();
-        $booking->accommodation()->associate($accommodation);
-        $booking->user()->associate($request->user());
-        $booking->check_in = Carbon::parse($dates['start_date']);
-        $booking->check_out = Carbon::parse($dates['end_date']);
-        $booking->status = 'pending';
-        $booking->stripe_session_id = $session->id;
-        $booking->amount = $price->totalPrice;
-        $booking->amount_paid = 0;
-        $booking->save();
+        $session = $bookingService->createBookingSession(
+            $price,
+            $accommodation,
+            $request->user(),
+            Carbon::parse($dates['start_date']),
+            Carbon::parse($dates['end_date'])
+        );
 
         return Inertia::render('Book/Stay/Index', [
             'accommodation' => $accommodation,

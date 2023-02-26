@@ -86,18 +86,12 @@ export default {
         StripeCheckout,
         Link
     },
-    data() {
-        return {
-            //
-            publishableKey: this.$page.props.stripePk
-        };
-    },
     props: {
         accommodation: Object,
         accommodationPrice: Object,
         user: Object,
         stripeSessionId: String,
-        stripePk: String
+        publishableKey: String
     },
     methods: {
         submit() {
