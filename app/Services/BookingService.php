@@ -9,6 +9,8 @@ use App\Models\Booking;
 use App\Models\User;
 use Carbon\Carbon;
 use Stripe\Checkout\Session;
+use Symfony\Component\HttpFoundation\Exception\SessionNotFoundException;
+use Symfony\Component\HttpKernel\Exception\UnexpectedSessionUsageException;
 
 class BookingService implements IBooking
 {
@@ -68,24 +70,28 @@ class BookingService implements IBooking
         return $session;
     }
 
-    public function processBookingPayment(string $stripeSessionId): Booking
+    /**
+     * @param string $stripeSessionId
+     * @return Booking|null
+     */
+    public function processBookingPayment(string $stripeSessionId): ?Booking
     {
         $secretKey = env('STRIPE_SECRET');
         try {
             $session = Session::retrieve($stripeSessionId, $secretKey);
         } catch (\Exception $e) {
-            return response('Payment not successful', 400);
+            throw new SessionNotFoundException();
         }
 
         if ($session->payment_status !== 'paid') {
-            return response('Payment not successful', 400);
+            throw new UnexpectedSessionUsageException("Payment status not as expected");
         }
 
         // get Booking where session_id = $sessionId, firstOrFail
         $booking = Booking::where('stripe_session_id', $stripeSessionId)->firstOrFail();
 
         if(!$booking) {
-            return response('Payment not successful', 400);
+            return null;
         }
 
         $booking->status = 'paid';
