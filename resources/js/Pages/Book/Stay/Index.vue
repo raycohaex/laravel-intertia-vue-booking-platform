@@ -83,7 +83,8 @@ export default {
     components: {
         AppLayout,
         AccommodationPrice,
-        StripeCheckout
+        StripeCheckout,
+        Link
     },
     data() {
         return {

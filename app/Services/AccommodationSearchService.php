@@ -9,8 +9,6 @@ use App\Models\Accommodation;
  */
 class AccommodationSearchService
 {
-    protected array $filters = [];
-
     public const COUNTRY            = 'country';
     public const CITY               = 'city';
     public const BEDS               = 'beds';

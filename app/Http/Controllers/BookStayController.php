@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\IAccommodationPricing;
 use App\Models\Accommodation;
 use App\Models\Booking;
 use App\Services\AccommodationPricingService;
@@ -13,7 +14,7 @@ use Stripe\Checkout\Session;
 
 class BookStayController extends Controller
 {
-    public function checkout(Request $request, int $accommodation, AccommodationPricingService $accommodationPricingService) {
+    public function checkout(Request $request, int $accommodation, IAccommodationPricing $accommodationPricingService) {
         $request->validate([
             'start_date' => 'required|date',
             'end_date' => 'required|date',
