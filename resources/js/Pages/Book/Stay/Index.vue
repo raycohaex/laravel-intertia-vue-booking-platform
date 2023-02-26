@@ -20,9 +20,47 @@
                             :pk="publishableKey"
                             :session-id="stripeSessionId"
                             />
-                        <button type="button" @click="submit">Checkout</button>
+
+                            <!-- fake checkout form with disabled inputs and prefilled fake data as placeholder -->
+                            <div class="bg-slate-200 p-1 rounded w-full mb-2 text-sm">Hardcoded form information, deliberately left out. Click pay to continue</div>
+                            <form class="opacity-50 mb-5">
+                                <div class="flex flex-col space-y-4">
+                                    <div class="flex flex-col space-y-2">
+                                        <label for="name" class="text-sm">Name</label>
+                                        <input type="text" id="name" name="name" class="border border-gray-200 p-2 rounded" disabled value="John Doe">
+                                    </div>
+                                    <div class="flex flex-col space-y-2">
+                                        <label for="email" class="text-sm">Email</label>
+                                        <input type="email" id="email" name="email" class="border border-gray-200 p-2 rounded" disabled value="john.doe@example.com">
+                                    </div>
+                                    <div class="flex flex-col space-y-2">
+                                        <label for="address" class="text-sm">Address</label>
+                                        <input type="text" id="address" name="address" class="border border-gray-200 p-2 rounded" disabled value="1234 Main St">
+                                    </div>
+                                    <div class="flex justify-between gap-3 items-center">
+                                        <div class="flex flex-col space-y-2 w-full">
+                                            <label for="city" class="text-sm">City</label>
+                                            <input type="text" id="city" name="city" class="border border-gray-200 p-2 rounded" disabled value="New York">
+                                        </div>
+                                        <div class="flex flex-col space-y-2 w-full">
+                                            <label for="state" class="text-sm">State</label>
+                                            <input type="text" id="state" name="state" class="border border-gray-200 p-2 rounded" disabled value="NY">
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col space-y-2">
+                                        <label for="zip" class="text-sm">Zip</label>
+                                        <input type="text" id="zip" name="zip" class="border border-gray-200 p-2 rounded" disabled value="10001">
+                                    </div>
+                                </div>
+                            </form>
+
+                        <button type="button"
+                                @click="submit"
+                                class="bg-black text-white font-bold py-2 px-4 rounded">
+                            Pay
+                        </button>
                     </div>
-                    <div class="col-span-2 border border-gray-200 p-4 shadow-md rounded-xl">
+                    <div class="col-span-2 border border-gray-200 p-4 shadow-md rounded-xl mb-auto">
                         <div class="flex border-b border-gray-200 py-3 pb-6">
                             <img :src="accommodation.images[0].url" class="w-[124px] h-[100px] rounded-lg mr-3">
                             <h2 class="text-sm">{{ accommodation.name }}</h2>
@@ -49,15 +87,16 @@ export default {
     },
     data() {
         return {
-            publishableKey: 'pk_test_51MfM66AVsCOL8hvw5pRPJLnwlVZ5K5J9nh583jDycUX7HNLQvfQJaof4uBGKCrKnWouIctJrqmz0ER0RoIHe1vng00VF8CiyIq'
-            
+            //
+            publishableKey: this.$page.props.stripePk
         };
     },
     props: {
         accommodation: Object,
         accommodationPrice: Object,
         user: Object,
-        stripeSessionId: String
+        stripeSessionId: String,
+        stripePk: String
     },
     methods: {
         submit() {

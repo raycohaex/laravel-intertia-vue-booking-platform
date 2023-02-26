@@ -65,7 +65,8 @@ class BookStayController extends Controller
         return Inertia::render('Book/Stay/Index', [
             'accommodation' => $accommodation,
             'accommodationPrice' => $price,
-            'stripeSessionId' => $session->id
+            'stripeSessionId' => $session->id,
+            'publishableKey' => env('STRIPE_KEY'),
         ]);
     }
 }

@@ -3,7 +3,7 @@
 ## Install
 - Run `composer install`
 - Run `npm install`
-- php artisan migrate --seed (~20 seconds)
+- php artisan migrate --seed
 - php artisan serve
 
 ## About

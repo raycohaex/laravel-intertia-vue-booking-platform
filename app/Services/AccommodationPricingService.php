@@ -20,7 +20,7 @@ class AccommodationPricingService implements IAccommodationPricing {
      * @param Accommodation $accommodation
      * @return AccommodationPrice
      */
-    public function getPrice(Carbon $start_date, Carbon $end_date, Accommodation $accommodation)
+    public function getPrice(Carbon $start_date, Carbon $end_date, Accommodation $accommodation): AccommodationPrice
     {
         $days = $start_date->diffInDays($end_date);
 
@@ -37,6 +37,23 @@ class AccommodationPricingService implements IAccommodationPricing {
             $totalPrice
         );
 
+        // calculate and apply taxes
+        $accommodationPriceDto = $this->calculateTax($accommodationPriceDto);
+
+        return $accommodationPriceDto;
+    }
+
+    /**
+     * @param AccommodationPrice $accommodationPriceDto
+     * @return AccommodationPrice
+     */
+    public function calculateTax(AccommodationPrice $accommodationPriceDto): AccommodationPrice
+    {
+        // Tax rates differ per country. A strategy pattern could be used to use the right algorithm.
+        // For now it's hardcoded to 21%, the Dutch tax rate. Because the project is intended to be a demo.
+        $tax = $accommodationPriceDto->totalPrice / 100 * 21;
+        $accommodationPriceDto->totalPrice += $tax;
+        $accommodationPriceDto->tax = $tax;
         return $accommodationPriceDto;
     }
 }
