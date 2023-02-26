@@ -18,8 +18,10 @@ return new class extends Migration
          */
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('accommodation_id')->constrained();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('accommodation_id');
+            $table->foreign('accommodation_id')->references('id')->on('accommodations')->onDelete('cascade');
             $table->date('check_in');
             $table->date('check_out');
             $table->string('status');

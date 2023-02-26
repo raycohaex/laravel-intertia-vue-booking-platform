@@ -6,7 +6,6 @@ use App\DTO\AccommodationPrice;
 use App\Models\Accommodation;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 
 interface IBooking
 {

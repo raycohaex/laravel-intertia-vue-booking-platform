@@ -58,7 +58,7 @@ class AccommodationFactory extends Factory
             'longitude' => $this->faker->longitude(),
             'cleaning_cost' => $this->faker->randomFloat(2, 10, 200),
             'wifi' => $this->faker->boolean(),
-            'price' => $this->faker->randomFloat(2, 40, 700),
+            'price' => $this->faker->randomFloat(2, 40, 300),
             'bed' => $this->faker->numberBetween(1, 5),
             'amenities' => $this->faker->sentence(50),
             'host_id' => User::first()

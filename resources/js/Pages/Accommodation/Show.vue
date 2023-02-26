@@ -134,7 +134,7 @@ export default {
     props: {
         confirmsTwoFactorAuthentication: Boolean,
         sessions: Array,
-        accommodation: Object
+        accommodation: Object,
     },
     data() {
         return {
@@ -150,7 +150,28 @@ export default {
             return new Date(today.getTime() + eightMonths)
         },
         disableDate(date) {
-            return date < new Date() || date > this.eightMonthsFromToday()
+            const bookedDates = this.accommodationUnavailable();
+            const today = new Date();
+            const eightMonthsFromToday = new Date(today.getFullYear(), today.getMonth() + 8, today.getDate());
+
+            // Disable dates before today or more than 8 months from today
+            if (date < today || date > eightMonthsFromToday) {
+                return true;
+            }
+
+            // Disable dates that fall within any booked dates for the accommodation
+            for (const [checkIn, checkOut] of bookedDates) {
+                if (date >= checkIn && date <= checkOut) {
+                return true;
+                }
+            }
+
+            return false;
+        },
+        accommodationUnavailable() {
+            return this.accommodation.bookings.map(booking => {
+                return [new Date(booking.check_in), new Date(booking.check_out)];
+            });
         },
         calculatePrice() {
             axios.get(route('accommodations.price', { accommodation: this.accommodation.id}), {
