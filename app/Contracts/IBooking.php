@@ -11,5 +11,5 @@ use Illuminate\Http\Request;
 interface IBooking
 {
     public function createBookingSession(AccommodationPrice $accommodationPrice, Accommodation $accommodation, User $user, Carbon $checkIn, Carbon $checkOut);
-    public function processBookingPayment(string $stripeSessionId, AccommodationPrice $accommodationPrice, Accommodation $accommodation);
+    public function processBookingPayment(string $stripeSessionId);
 }

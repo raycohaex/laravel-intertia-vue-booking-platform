@@ -68,8 +68,30 @@ class BookingService implements IBooking
         return $session;
     }
 
-    public function processBookingPayment(string $stripeSessionId, AccommodationPrice $accommodationPrice, Accommodation $accommodation)
+    public function processBookingPayment(string $stripeSessionId): Booking
     {
-        // TODO: Implement processBookingPayment() method.
+        $secretKey = env('STRIPE_SECRET');
+        try {
+            $session = Session::retrieve($stripeSessionId, $secretKey);
+        } catch (\Exception $e) {
+            return response('Payment not successful', 400);
+        }
+
+        if ($session->payment_status !== 'paid') {
+            return response('Payment not successful', 400);
+        }
+
+        // get Booking where session_id = $sessionId, firstOrFail
+        $booking = Booking::where('stripe_session_id', $stripeSessionId)->firstOrFail();
+
+        if(!$booking) {
+            return response('Payment not successful', 400);
+        }
+
+        $booking->status = 'paid';
+        $booking->amount_paid = $session->amount_total / 100;
+        $booking->save();
+
+        return $booking;
     }
 }
