@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccommodationController;
+use App\Http\Controllers\BookingsController;
 use App\Http\Controllers\BookStayController;
 use App\Http\Controllers\Pay\StripePaymentController;
 use Illuminate\Foundation\Application;
@@ -25,6 +26,8 @@ Route::get('/accommodation/{accommodation}/calculate-price', [AccommodationContr
 // group with required auth
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/book/stay/{accommodation}', [BookStayController::class, 'checkout'])->name('book.stay');
+
+    Route::get('/bookings', [BookingsController::class, 'bookings'])->name('bookings');
 });
 
 Route::controller(StripePaymentController::class)->group(function(){
